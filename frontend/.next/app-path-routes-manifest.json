@@ -1,0 +1,11 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/favicon.ico/route": "/favicon.ico",
+  "/login/page": "/login",
+  "/page": "/",
+  "/register/page": "/register",
+  "/tasks/[id]/page": "/tasks/[id]",
+  "/tasks/create/page": "/tasks/create",
+  "/tasks/edit/[id]/page": "/tasks/edit/[id]",
+  "/tasks/page": "/tasks"
+}
