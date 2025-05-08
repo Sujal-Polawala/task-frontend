@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getMyTasks } from "@/api/tasks";
 import { getToken } from "@/utils/auth";
-import Navbar from "@/components/Navbar";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { jwtDecode } from "jwt-decode";
 
@@ -73,9 +72,6 @@ export default function Dashboard() {
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-700 text-white">
-        <div className="sticky top-0 z-50 bg-zinc-900">
-          <Navbar />
-        </div>
         <div className="max-w-6xl mx-auto p-6">
           <h1 className="text-4xl font-extrabold mb-10 tracking-tight">
             🧩 Task Dashboard
