@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getTaskById, updateTask } from "@/api/tasks";
-import Navbar from "@/components/Navbar";
 import toast from "react-hot-toast";
 
 export default function EditTaskPage() {
@@ -71,7 +70,6 @@ export default function EditTaskPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-700 text-white">
-      <Navbar />
       <div className="max-w-2xl mx-auto p-6">
         <h1 className="text-3xl font-bold text-teal-400 mb-6">✏️ Edit Task</h1>
         <form
