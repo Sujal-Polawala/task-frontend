@@ -16,29 +16,36 @@ export default function EditTaskPage() {
     status: "Pending",
     dueDate: "",
   });
+  const [accessLevel, setAccessLevel] = useState({
+    isCreator: false,
+    isAssignee: false,
+  });
 
   useEffect(() => {
     const fetchTask = async () => {
       const token = localStorage.getItem("token");
       try {
-        const data = await getTaskById(id, token);
-        
-        // Format dueDate to YYYY-MM-DD if it exists
+        const {
+          task: data,
+          isCreator,
+          isAssignee,
+        } = await getTaskById(id, token);
         const formattedDueDate = data.dueDate
           ? new Date(data.dueDate).toISOString().split("T")[0]
           : "";
-  
+
         setTask({
           ...data,
           dueDate: formattedDueDate,
         });
+        setAccessLevel({ isCreator, isAssignee });
       } catch (err) {
-        alert("Failed to load task");
+        toast.error("Failed to load task details");
       }
     };
-  
+
     fetchTask();
-  }, [id]);  
+  }, [id]);
 
   const handleChange = (e) => {
     setTask({ ...task, [e.target.name]: e.target.value });
@@ -83,7 +90,8 @@ export default function EditTaskPage() {
               name="title"
               value={task.title}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              readOnly={!accessLevel.isCreator}
+              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-not-allowed"
               required
             />
           </div>
@@ -96,7 +104,8 @@ export default function EditTaskPage() {
               name="description"
               value={task.description}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              readOnly={!accessLevel.isCreator}
+              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-not-allowed"
             />
           </div>
 
@@ -107,8 +116,9 @@ export default function EditTaskPage() {
               name="dueDate"
               value={task.dueDate}
               onChange={handleChange}
+              readOnly={!accessLevel.isCreator}
               min={todayISO} // prevents selection of past dates
-              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-not-allowed"
               required
             />
           </div>
@@ -119,7 +129,8 @@ export default function EditTaskPage() {
               name="priority"
               value={task.priority}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              readOnly={!accessLevel.isCreator}
+              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-not-allowed"
             >
               <option value="Low">Low</option>
               <option value="Medium">Medium</option>
@@ -133,7 +144,11 @@ export default function EditTaskPage() {
               name="status"
               value={task.status}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className={`w-full p-3 rounded-lg ${
+                accessLevel.isCreator || accessLevel.isAssignee
+                  ? "bg-zinc-900 text-white"
+                  : "bg-zinc-800 text-gray-400 cursor-not-allowed"
+              } border border-zinc-600`}
             >
               <option value="Start">Start</option>
               <option value="In Progress">In Progress</option>
@@ -143,7 +158,12 @@ export default function EditTaskPage() {
 
           <button
             type="submit"
-            className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-lg font-medium transition hover:cursor-pointer"
+            disabled={!accessLevel.isCreator && !accessLevel.isAssignee}
+            className={`w-full py-3 rounded-lg font-medium transition ${
+              accessLevel.isCreator || accessLevel.isAssignee
+                ? "bg-teal-600 hover:bg-teal-700 text-white"
+                : "bg-zinc-600 text-gray-300 cursor-not-allowed"
+            }`}
           >
             Update Task
           </button>
