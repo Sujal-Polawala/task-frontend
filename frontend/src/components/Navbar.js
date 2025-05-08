@@ -65,7 +65,7 @@ export default function Navbar() {
           <span className="text-sm text-gray-300 italic hidden md:inline">👋 {username}</span>
           <button
             onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md transition duration-300"
+            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md transition duration-300 hover:cursor-pointer"
           >
             Logout
           </button>
