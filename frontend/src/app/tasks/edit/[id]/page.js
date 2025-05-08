@@ -25,25 +25,19 @@ export default function EditTaskPage() {
     const fetchTask = async () => {
       const token = localStorage.getItem("token");
       try {
-        const {
-          task: data,
-          isCreator,
-          isAssignee,
-        } = await getTaskById(id, token);
-        const formattedDueDate = data.dueDate
-          ? new Date(data.dueDate).toISOString().split("T")[0]
-          : "";
-
+        const { task: data, isCreator, isAssignee } = await getTaskById(id, token);
+        console.log("Fetched Task:", data);
         setTask({
           ...data,
-          dueDate: formattedDueDate,
+          dueDate: data.dueDate ? new Date(data.dueDate).toISOString().split("T")[0] : "",
         });
         setAccessLevel({ isCreator, isAssignee });
-      } catch (err) {
-        toast.error("Failed to load task details");
+        } catch (err) {
+          console.error("Fetch task failed:", err.response?.data || err.message);
+          toast.error("Failed to load task details");
       }
     };
-
+    
     fetchTask();
   }, [id]);
 
