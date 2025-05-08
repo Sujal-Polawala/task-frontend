@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { getMyTasks } from "@/api/tasks";
 import { getToken } from "@/utils/auth";
 import { getNotifications } from "@/api/notification";
-import Navbar from "@/components/Navbar";
 
 export default function TaskListPage() {
   const [tasks, setTasks] = useState([]);
@@ -94,7 +93,6 @@ export default function TaskListPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-700 text-white">
-      <Navbar />
       <div className="max-w-7xl mx-auto p-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-semibold text-teal-400">📋 My Tasks</h1>
