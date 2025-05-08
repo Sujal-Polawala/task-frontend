@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getTaskById, updateTask } from "@/api/tasks";
-import Navbar from "@/components/Navbar";
 import toast from "react-hot-toast";
 
 export default function EditTaskPage() {
@@ -70,18 +69,14 @@ export default function EditTaskPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-700 text-white">
-      {" "}
-      <Navbar />{" "}
       <div className="max-w-2xl mx-auto p-6">
-        {" "}
         <h1 className="text-3xl font-bold text-teal-400 mb-6">
           ✏️ Edit Task
-        </h1>{" "}
+        </h1>
         <form
           onSubmit={handleSubmit}
           className="bg-zinc-800/70 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-zinc-700 space-y-5"
         >
-          {" "}
           <div>
             {" "}
             <label className="block text-sm mb-1 text-gray-300">
@@ -94,7 +89,7 @@ export default function EditTaskPage() {
               onChange={handleChange}
               className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
-            />{" "}
+            />
           </div>
           <div>
             <label className="block text-sm mb-1 text-gray-300">
