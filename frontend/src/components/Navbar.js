@@ -87,7 +87,7 @@ export default function Navbar() {
               setMenuOpen(false);
               handleLogout();
             }}
-            className="w-full text-left bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md"
+            className="w-full text-left bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md hover:cursor-pointer"
           >
             Logout
           </button>
