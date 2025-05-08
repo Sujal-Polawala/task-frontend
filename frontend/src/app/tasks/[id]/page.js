@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getTaskById, deleteTask } from "@/api/tasks";
 import { getToken } from "@/utils/auth";
-import Navbar from "@/components/Navbar";
 import { Trash2, Edit3, Clock, FileText, Info, XCircle } from "lucide-react";
 import { toast } from "react-hot-toast";
 
@@ -54,7 +53,6 @@ export default function TaskDetailsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 text-white">
-      <Navbar />
       <div className="max-w-4xl mx-auto p-8">
         <div className="bg-zinc-800 p-6 rounded-2xl shadow-lg border border-zinc-700">
           <h1 className="text-4xl font-bold mb-6 text-teal-400 flex items-center gap-3">
