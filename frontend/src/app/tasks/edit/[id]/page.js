@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getTaskById, updateTask } from "@/api/tasks";
+import Navbar from "@/components/Navbar";
 import toast from "react-hot-toast";
 
 export default function EditTaskPage() {
@@ -16,28 +17,26 @@ export default function EditTaskPage() {
     status: "Pending",
     dueDate: "",
   });
-  const [accessLevel, setAccessLevel] = useState({
-    isCreator: false,
-    isAssignee: false,
-  });
 
   useEffect(() => {
     const fetchTask = async () => {
       const token = localStorage.getItem("token");
       try {
-        const { task: data, isCreator, isAssignee } = await getTaskById(id, token);
-        console.log("Fetched Task:", data);
+        const data = await getTaskById(id, token);
+        // Format dueDate to YYYY-MM-DD if it exists
+        const formattedDueDate = data.dueDate
+          ? new Date(data.dueDate).toISOString().split("T")[0]
+          : "";
+
         setTask({
           ...data,
-          dueDate: data.dueDate ? new Date(data.dueDate).toISOString().split("T")[0] : "",
+          dueDate: formattedDueDate,
         });
-        setAccessLevel({ isCreator, isAssignee });
-        } catch (err) {
-          console.error("Fetch task failed:", err.response?.data || err.message);
-          toast.error("Failed to load task details");
+      } catch (err) {
+        alert("Failed to load task");
       }
     };
-    
+
     fetchTask();
   }, [id]);
 
@@ -71,25 +70,32 @@ export default function EditTaskPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-700 text-white">
+      {" "}
+      <Navbar />{" "}
       <div className="max-w-2xl mx-auto p-6">
-        <h1 className="text-3xl font-bold text-teal-400 mb-6">✏️ Edit Task</h1>
+        {" "}
+        <h1 className="text-3xl font-bold text-teal-400 mb-6">
+          ✏️ Edit Task
+        </h1>{" "}
         <form
           onSubmit={handleSubmit}
           className="bg-zinc-800/70 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-zinc-700 space-y-5"
         >
+          {" "}
           <div>
-            <label className="block text-sm mb-1 text-gray-300">Title</label>
+            {" "}
+            <label className="block text-sm mb-1 text-gray-300">
+              Title
+            </label>{" "}
             <input
               type="text"
               name="title"
               value={task.title}
               onChange={handleChange}
-              readOnly={!accessLevel.isCreator}
-              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-not-allowed"
+              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
-            />
+            />{" "}
           </div>
-
           <div>
             <label className="block text-sm mb-1 text-gray-300">
               Description
@@ -98,11 +104,9 @@ export default function EditTaskPage() {
               name="description"
               value={task.description}
               onChange={handleChange}
-              readOnly={!accessLevel.isCreator}
-              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-not-allowed"
+              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
-
           <div>
             <label className="block text-sm mb-1 text-gray-300">Due Date</label>
             <input
@@ -110,54 +114,40 @@ export default function EditTaskPage() {
               name="dueDate"
               value={task.dueDate}
               onChange={handleChange}
-              readOnly={!accessLevel.isCreator}
               min={todayISO} // prevents selection of past dates
-              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-not-allowed"
+              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
-
           <div>
             <label className="block text-sm mb-1 text-gray-300">Priority</label>
             <select
               name="priority"
               value={task.priority}
               onChange={handleChange}
-              readOnly={!accessLevel.isCreator}
-              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-not-allowed"
+              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
               <option value="Low">Low</option>
               <option value="Medium">Medium</option>
               <option value="High">High</option>
             </select>
           </div>
-
           <div>
             <label className="block text-sm mb-1 text-gray-300">Status</label>
             <select
               name="status"
               value={task.status}
               onChange={handleChange}
-              className={`w-full p-3 rounded-lg ${
-                accessLevel.isCreator || accessLevel.isAssignee
-                  ? "bg-zinc-900 text-white"
-                  : "bg-zinc-800 text-gray-400 cursor-not-allowed"
-              } border border-zinc-600`}
+              className="w-full p-3 rounded-lg bg-zinc-900 text-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
               <option value="Start">Start</option>
               <option value="In Progress">In Progress</option>
               <option value="Completed">Completed</option>
             </select>
           </div>
-
           <button
             type="submit"
-            disabled={!accessLevel.isCreator && !accessLevel.isAssignee}
-            className={`w-full py-3 rounded-lg font-medium transition ${
-              accessLevel.isCreator || accessLevel.isAssignee
-                ? "bg-teal-600 hover:bg-teal-700 text-white"
-                : "bg-zinc-600 text-gray-300 cursor-not-allowed"
-            }`}
+            className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-lg font-medium transition"
           >
             Update Task
           </button>
