@@ -45,14 +45,14 @@ yarn dev
 ## 📁 Project Structure
 ```
 /task
-├── pages/              # Next.js pages and routes
-│   ├── index.js        # Main page with task list
-│   └── _app.js         # App wrapper
-├── public/             # Static assets like images
-├── styles/             # CSS or Tailwind styles
-├── components/         # Reusable React components
-├── package.json
-└── next.config.js
+├──/frontend
+  ├── public/             # Static assets like images
+  ├── src/
+    ├── app/              
+    ├── api/       
+    ├── components
+  ├── package.json
+  └── next.config.js
 ```
 ## 💻 Tech Stack
 Next.js (React framework)
