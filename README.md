@@ -44,13 +44,16 @@ yarn dev
 
 ## 📁 Project Structure
 ```
-/task
-├──/frontend
-  ├── public/             # Static assets like images
-  ├── src/
-    ├── app/              
-    ├── api/       
-    ├── components
+task/
+└── frontend/
+    ├── .next/               # Next.js build output (auto-generated)
+    ├── public/              # Static assets (images, favicon, etc.)
+    └── src/
+        ├── api/             # API route handlers
+        ├── app/             # Next.js app pages and layouts
+        ├── components/      # Reusable React components
+        ├── config/          # Configuration files
+        └── utils/           
   ├── package.json
   └── next.config.js
 ```
